@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/layout_info"
+    android:orientation="vertical">
+
+    <TextView android:id="@+id/tv_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="A1_1809"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:gravity="center_horizontal"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="24dp"/>
+
+    <TextView android:id="@+id/tv_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Họ tên: "
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+    <TextView android:id="@+id/tv_class"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lóp: "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    <TextView android:id="@+id/tv_score"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Điểm trung bình:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+</LinearLayout>
