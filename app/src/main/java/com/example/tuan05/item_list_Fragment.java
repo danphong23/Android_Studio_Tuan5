@@ -23,11 +23,16 @@ import java.util.Random;
  * Use the {@link item_list_Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class item_list_Fragment extends Fragment {
+public class item_list_Fragment extends Fragment implements FragmentCallbacks {
 
     MainActivity main;
     Context context = null;
     String message = "";
+
+    TextView tv_id;
+    ListView lv_item_list;
+
+    CustomIconLabelAdapter info;
 
     String ids[] = {"A1_0001", "A1_0002", "A1_0003", "A2_0001","A2_0002","A2_0003","A2_0004","A3_0001","A3_0002","A3_0003"};
     Integer icons[] = {R.drawable.face_1, R.drawable.face_2, R.drawable.face_3,
@@ -37,8 +42,12 @@ public class item_list_Fragment extends Fragment {
     String lops[] = {"A1", "A1", "A1", "A2", "A2", "A2", "A2", "A3", "A3", "A3"};
     String scores[] = {"9", "0", "7", "8", "5", "1", "4", "9", "8", "6"};
 
+
+
 //    lưu vị trí item được chọn
-    int index = 0;
+    int index=-1, pre_index=-1;
+    String in;
+
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -93,9 +102,9 @@ public class item_list_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         LinearLayout layout_list_item = (LinearLayout) inflater.inflate(R.layout.layout_list_item, null);
-        TextView tv_id = (TextView) layout_list_item.findViewById(R.id.tv_id);
-        ListView lv_item_list = (ListView) layout_list_item.findViewById(R.id.lv_item_list);
-        CustomIconLabelAdapter info = new CustomIconLabelAdapter(context, R.layout.custom_layout_information,ids, names, lops, scores ,icons);
+        tv_id = (TextView) layout_list_item.findViewById(R.id.tv_id);
+        lv_item_list = (ListView) layout_list_item.findViewById(R.id.lv_item_list);
+        info = new CustomIconLabelAdapter(context, R.layout.custom_layout_information,ids, names, lops, scores ,icons);
         lv_item_list.setAdapter(info);
         lv_item_list.setSelection(0);
         lv_item_list.smoothScrollToPosition(0);
@@ -103,18 +112,51 @@ public class item_list_Fragment extends Fragment {
         lv_item_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                lỗi :v
-//                lv_item_list.getChildAt(index).setBackgroundResource(R.color.white);
-//                view.setBackgroundResource(R.color.black);
-                String[] data = {ids[i], names[i], lops[i], scores[i]};
-                main.onMsgFromFragToMain("LIST-ITEM-FRAG", data);
+
+                pre_index=index;
+                index=i;
+                in=Integer.toString(i);
+                if(pre_index!=-1){
+                    lv_item_list.getChildAt(pre_index).setBackgroundResource(androidx.cardview.R.color.cardview_light_background);
+                }
+
+                lv_item_list.getChildAt(index).setBackgroundResource(androidx.cardview.R.color.cardview_shadow_start_color);
+
+                String[] data = {ids[i], names[i], lops[i], scores[i], in};
+                main.onMsgFromFragLToMain("LIST-ITEM-FRAG", data);
                 tv_id.setText("Mã số: " + info.ids[i]);
                 index = i;
             }
         });
 
-//        return inflater.inflate(R.layout.layout_list_item, container, false);
+
+
+
         return layout_list_item;
+    }
+
+    //Khong su dung
+    @Override
+    public void onMsgFromMainToFragmentI(String[] data) {
+
+    }
+
+    @Override
+    public void onMsgFromMainToFragmentL(String in) {
+        Integer i=Integer.parseInt(in);
+        pre_index=index;
+        index=i;
+        in=Integer.toString(i);
+        if(pre_index!=-1){
+            lv_item_list.getChildAt(pre_index).setBackgroundResource(androidx.cardview.R.color.cardview_light_background);
+        }
+
+        lv_item_list.getChildAt(index).setBackgroundResource(androidx.cardview.R.color.cardview_shadow_start_color);
+
+        String[] data = {ids[i], names[i], lops[i], scores[i], in};
+        main.onMsgFromFragLToMain("LIST-ITEM-FRAG", data);
+        tv_id.setText("Mã số: " + info.ids[i]);
+        index = i;
     }
 }
 
@@ -136,7 +178,7 @@ class CustomIconLabelAdapter extends ArrayAdapter<String> {
         this.scores = scores;
         this.icons = icons;
     }
-    //    random ngẫu nhiên n dòng dữ liệu , với mỗi trang hiển thị m dòng (theo đề thì 5 dòng)
+
 
     //    hàm getView
     @Override
@@ -150,5 +192,6 @@ class CustomIconLabelAdapter extends ArrayAdapter<String> {
         icon.setImageResource(icons[position]);
         return (row);
     }
+
 
 } // CustomAdapter

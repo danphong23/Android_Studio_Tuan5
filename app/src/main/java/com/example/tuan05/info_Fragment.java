@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,10 +19,19 @@ import android.widget.TextView;
  */
 public class info_Fragment extends Fragment implements FragmentCallbacks {
     MainActivity main;
+    LinearLayout layout_info;
     static TextView tv_id;
     static TextView tv_name;
     static TextView tv_class;
     static TextView tv_score;
+
+    Button btn_first;
+    Button btn_pre;
+    Button btn_next;
+    Button btn_last;
+
+
+    Integer in=-1;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -73,11 +83,66 @@ public class info_Fragment extends Fragment implements FragmentCallbacks {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        LinearLayout layout_info = (LinearLayout) inflater.inflate(R.layout.layout_information, null);
+        layout_info = (LinearLayout) inflater.inflate(R.layout.layout_information, null);
         tv_id = (TextView) layout_info.findViewById(R.id.tv_id);
         tv_name = (TextView) layout_info.findViewById(R.id.tv_name);
         tv_class = (TextView) layout_info.findViewById(R.id.tv_class);
         tv_score = (TextView) layout_info.findViewById(R.id.tv_score);
+
+
+        btn_first=(Button) layout_info.findViewById(R.id.btn_first);
+        btn_pre=(Button) layout_info.findViewById(R.id.btn_pre);
+        btn_last=(Button) layout_info.findViewById(R.id.btn_last);
+        btn_next=(Button) layout_info.findViewById(R.id.btn_next);
+
+
+
+
+        btn_first.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                in=0;
+                String i=Integer.toString(in);
+                main.onMsgFromFragIToMain("INFOR-FRAG",i);
+                btn_first.setEnabled(false);
+                btn_pre.setEnabled(false);
+            }
+        });
+        btn_pre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                in=in-1;
+                String i=Integer.toString(in);
+                main.onMsgFromFragIToMain("INFOR-FRAG",i);
+                if(in==0){
+                    btn_first.setEnabled(false);
+                    btn_pre.setEnabled(false);
+                };
+            }
+        });
+        btn_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                in=in+1;
+                String i=Integer.toString(in);
+                main.onMsgFromFragIToMain("INFOR-FRAG",i);
+                if(in==9){
+                    btn_next.setEnabled(false);
+                    btn_last.setEnabled(false);
+                };
+            }
+        });
+        btn_last.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                in=9;
+                String i=Integer.toString(in);
+                main.onMsgFromFragIToMain("INFOR-FRAG",i);
+                btn_next.setEnabled(false);
+                btn_last.setEnabled(false);
+            }
+        });
+
         try {
             Bundle arguments = getArguments();
             tv_id.setText(arguments.getString("id", ""));
@@ -88,18 +153,44 @@ public class info_Fragment extends Fragment implements FragmentCallbacks {
         }
         catch (Exception e)
         {
-            Log.e("RED BUNDLE ERROR – ", "" + e.getMessage());
+            Log.e("INFO BUNDLE ERROR – ", "" + e.getMessage());
         }
         return layout_info;
     }
 
 
     @Override
-    public void onMsgFromMainToFragment(String[] data)
+    public void onMsgFromMainToFragmentI(String[] data)
     {
         tv_id.setText(data[0]);
         tv_name.setText("Họ tên: "+data[1]);
         tv_class.setText("Lớp: "+ data[2]);
         tv_score.setText(("Điểm trung bình: "+ data[3]));
+        in=Integer.parseInt(data[4]);
+        if(in>0 && in<=9){
+            btn_first.setEnabled(true);
+            btn_pre.setEnabled(true);
+        };
+        if(in<9 && in>=0){
+            btn_last.setEnabled(true);
+            btn_next.setEnabled(true);
+        };
+        if(in==0){
+            btn_first.setEnabled(false);
+            btn_pre.setEnabled(false);
+        };
+        if(in==9){
+            btn_next.setEnabled(false);
+            btn_last.setEnabled(false);
+        };
     }
+
+
+    //Khong su dung
+    @Override
+    public void onMsgFromMainToFragmentL(String data) {
+
+    }
+
+
 }

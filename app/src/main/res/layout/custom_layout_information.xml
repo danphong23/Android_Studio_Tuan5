@@ -5,13 +5,13 @@
     android:id="@+id/custom_layout_item"
     android:orientation="horizontal"
     android:gravity="center_vertical"
-    android:paddingVertical="20dp">
+    android:paddingVertical="15dp">
 
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:scaleType="fitXY"
         android:layout_marginRight="3dp"
         android:layout_weight="1" />
