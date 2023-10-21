@@ -31,31 +31,37 @@
         android:text="Điểm trung bình:"
         android:textAppearance="?android:attr/textAppearanceLarge" />
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        >
         <Button
             android:id="@+id/btn_first"
-            android:layout_width="70dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="First"
             android:enabled="false"/>
         <Button
             android:id="@+id/btn_pre"
-            android:layout_width="90dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Previous"
             android:enabled="false"/>
         <Button
             android:id="@+id/btn_next"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Next"
             android:enabled="false"/>
         <Button
             android:id="@+id/btn_last"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Last"
             android:enabled="false"/>
     </LinearLayout>
